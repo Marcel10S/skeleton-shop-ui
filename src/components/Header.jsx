@@ -1,7 +1,10 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { useCart } from '../context/CartContext'
 
 function Header({ isMenuOpen, setIsMenuOpen }) {
+  const { itemCount } = useCart()
+
   return (
     <header className="bg-white shadow-md sticky top-0 z-50">
       <div className="container mx-auto px-4">
@@ -50,7 +53,7 @@ function Header({ isMenuOpen, setIsMenuOpen }) {
 
           {/* Cart Icon */}
           <div className="hidden md:flex items-center gap-4">
-            <button className="relative">
+            <Link to="/cart" className="relative" aria-label="Otwórz koszyk">
               <svg
                 className="w-6 h-6 text-gray-700 hover:text-blue-600"
                 fill="none"
@@ -65,9 +68,9 @@ function Header({ isMenuOpen, setIsMenuOpen }) {
                 />
               </svg>
               <span className="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white transform translate-x-1/2 -translate-y-1/2 bg-red-600 rounded-full">
-                0
+                {itemCount}
               </span>
-            </button>
+            </Link>
           </div>
         </div>
 

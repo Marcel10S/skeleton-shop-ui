@@ -1,7 +1,10 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { useCart } from '../context/CartContext'
 
 function ProductCard({ product }) {
+  const { addToCart } = useCart()
+
   return (
     <Link to={`/product/${product.id}`}>
       <div className="bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow overflow-hidden h-full">
@@ -65,7 +68,7 @@ function ProductCard({ product }) {
           <button
             onClick={(e) => {
               e.preventDefault()
-              // TODO: Add to cart functionality
+              addToCart(product)
             }}
             disabled={product.stock === 0}
             className="w-full mt-4 bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { apiService } from '../services/api'
+import { useCart } from '../context/CartContext'
 
 function ProductDetail() {
   const { id } = useParams()
@@ -9,6 +10,7 @@ function ProductDetail() {
   const [quantity, setQuantity] = useState(1)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
+  const { addToCart } = useCart()
 
   useEffect(() => {
     fetchProduct()
@@ -31,8 +33,7 @@ function ProductDetail() {
   }
 
   const handleAddToCart = () => {
-    // TODO: Implement add to cart functionality
-    console.log(`Added ${quantity} of product ${id} to cart`)
+    addToCart(product, quantity)
   }
 
   const handleQuantityChange = (e) => {
