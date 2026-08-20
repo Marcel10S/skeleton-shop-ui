@@ -51,11 +51,11 @@ function ProductCard({ product }) {
             <div className="text-right">
               {product.stock > 0 ? (
                 <span className="text-xs font-semibold text-green-600 bg-green-100 px-2 py-1 rounded">
-                  In Stock
+                  Dostępny
                 </span>
               ) : (
                 <span className="text-xs font-semibold text-red-600 bg-red-100 px-2 py-1 rounded">
-                  Out of Stock
+                  Niedostępny
                 </span>
               )}
             </div>
@@ -70,7 +70,7 @@ function ProductCard({ product }) {
             disabled={product.stock === 0}
             className="w-full mt-4 bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
           >
-            Add to Cart
+            Dodaj do koszyka
           </button>
         </div>
       </div>

@@ -15,7 +15,7 @@ function Header({ isMenuOpen, setIsMenuOpen }) {
           <button
             className="md:hidden text-gray-700 hover:text-blue-600 focus:outline-none"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            aria-label="Toggle menu"
+            aria-label="Przełącz menu"
           >
             <svg
               className="w-6 h-6"
@@ -35,16 +35,16 @@ function Header({ isMenuOpen, setIsMenuOpen }) {
           {/* Desktop Navigation */}
           <nav className="hidden md:flex gap-6">
             <Link to="/" className="text-gray-700 hover:text-blue-600 font-medium">
-              Home
+              Strona główna
             </Link>
             <Link to="/shop" className="text-gray-700 hover:text-blue-600 font-medium">
-              Shop
+              Sklep
             </Link>
             <Link to="/cart" className="text-gray-700 hover:text-blue-600 font-medium">
-              Cart
+              Koszyk
             </Link>
             <Link to="/contact" className="text-gray-700 hover:text-blue-600 font-medium">
-              Contact
+              Kontakt
             </Link>
           </nav>
 
@@ -79,28 +79,28 @@ function Header({ isMenuOpen, setIsMenuOpen }) {
               className="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded"
               onClick={() => setIsMenuOpen(false)}
             >
-              Home
+              Strona główna
             </Link>
             <Link
               to="/shop"
               className="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded"
               onClick={() => setIsMenuOpen(false)}
             >
-              Shop
+              Sklep
             </Link>
             <Link
               to="/cart"
               className="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded"
               onClick={() => setIsMenuOpen(false)}
             >
-              Cart
+              Koszyk
             </Link>
             <Link
               to="/contact"
               className="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded"
               onClick={() => setIsMenuOpen(false)}
             >
-              Contact
+              Kontakt
             </Link>
           </nav>
         )}

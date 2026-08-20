@@ -23,7 +23,7 @@ function ProductDetail() {
       // API already returns properly formatted data with prices divided by 100
       setProduct(data)
     } catch (err) {
-      setError('Failed to load product details.')
+      setError('Nie udało się wczytać szczegółów produktu.')
       console.error('Error fetching product:', err)
     } finally {
       setLoading(false)
@@ -45,7 +45,7 @@ function ProductDetail() {
       <div className="flex justify-center items-center min-h-96">
         <div className="text-center">
           <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
-          <p className="mt-4 text-gray-600">Loading product...</p>
+          <p className="mt-4 text-gray-600">Wczytywanie produktu...</p>
         </div>
       </div>
     )
@@ -54,13 +54,13 @@ function ProductDetail() {
   if (error || !product) {
     return (
       <div className="text-center py-12">
-        <h2 className="text-2xl font-bold text-gray-800 mb-4">Product Not Found</h2>
-        <p className="text-gray-600 mb-6">{error || 'The product you are looking for does not exist.'}</p>
+        <h2 className="text-2xl font-bold text-gray-800 mb-4">Nie znaleziono produktu</h2>
+        <p className="text-gray-600 mb-6">{error || 'Produkt, którego szukasz, nie istnieje.'}</p>
         <button
           onClick={() => navigate('/')}
           className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-6 rounded-lg"
         >
-          Back to Home
+          Wróć na stronę główną
         </button>
       </div>
     )
@@ -74,7 +74,7 @@ function ProductDetail() {
           onClick={() => navigate('/')}
           className="text-blue-600 hover:text-blue-800 font-medium"
         >
-          ← Back to Products
+          ← Wróć do produktów
         </button>
       </div>
 
@@ -125,7 +125,7 @@ function ProductDetail() {
                 </svg>
               ))}
             </div>
-            <span className="text-gray-600">(128 reviews)</span>
+            <span className="text-gray-600">(128 opinii)</span>
           </div>
 
           {/* Price */}
@@ -139,9 +139,9 @@ function ProductDetail() {
 
           {/* Description */}
           <div className="mb-6">
-            <h3 className="text-lg font-semibold text-gray-800 mb-2">Description</h3>
+            <h3 className="text-lg font-semibold text-gray-800 mb-2">Opis</h3>
             <p className="text-gray-600 leading-relaxed">
-              {product.description || 'No description available'}
+              {product.description || 'Brak dostępnego opisu'}
             </p>
           </div>
 
@@ -151,10 +151,10 @@ function ProductDetail() {
             <div className="mb-4">
               {product.stock > 0 ? (
                 <span className="text-green-600 font-semibold">
-                  ✓ In Stock ({product.stock} available)
+                  ✓ Dostępny ({product.stock} szt. w magazynie)
                 </span>
               ) : (
-                <span className="text-red-600 font-semibold">Out of Stock</span>
+                <span className="text-red-600 font-semibold">Niedostępny</span>
               )}
             </div>
 
@@ -162,7 +162,7 @@ function ProductDetail() {
             {product.stock > 0 && (
               <div className="mb-4">
                 <label className="block text-gray-700 font-medium mb-2">
-                  Quantity:
+                  Ilość:
                 </label>
                 <select
                   value={quantity}
@@ -184,28 +184,28 @@ function ProductDetail() {
               disabled={product.stock === 0}
               className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
             >
-              {product.stock > 0 ? 'Add to Cart' : 'Out of Stock'}
+              {product.stock > 0 ? 'Dodaj do koszyka' : 'Niedostępny'}
             </button>
 
             {/* Additional Options */}
             <div className="mt-4 flex gap-2">
               <button className="flex-1 border-2 border-gray-300 text-gray-700 font-medium py-2 px-4 rounded-lg hover:bg-gray-100 transition-colors">
-                ♡ Wishlist
+                ♡ Lista życzeń
               </button>
               <button className="flex-1 border-2 border-gray-300 text-gray-700 font-medium py-2 px-4 rounded-lg hover:bg-gray-100 transition-colors">
-                Share
+                Udostępnij
               </button>
             </div>
           </div>
 
           {/* Shipping & Returns */}
           <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-            <h4 className="font-semibold text-gray-800 mb-3">Shipping & Returns</h4>
+            <h4 className="font-semibold text-gray-800 mb-3">Dostawa i zwroty</h4>
             <ul className="space-y-2 text-sm text-gray-700">
-              <li>✓ Free shipping on orders over $50</li>
-              <li>✓ 30-day return policy</li>
-              <li>✓ Secure checkout</li>
-              <li>✓ 1-year warranty</li>
+              <li>✓ Darmowa dostawa dla zamówień powyżej 50 USD</li>
+              <li>✓ 30 dni na zwrot</li>
+              <li>✓ Bezpieczne płatności</li>
+              <li>✓ Roczna gwarancja</li>
             </ul>
           </div>
         </div>
@@ -213,7 +213,7 @@ function ProductDetail() {
 
       {/* Related Products Section */}
       <section className="mt-16 pt-12 border-t-2">
-        <h2 className="text-2xl md:text-3xl font-bold mb-8">Related Products</h2>
+        <h2 className="text-2xl md:text-3xl font-bold mb-8">Podobne produkty</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {/* Placeholder for related products */}
           {[...Array(4)].map((_, i) => (
@@ -221,7 +221,7 @@ function ProductDetail() {
               key={i}
               className="bg-white rounded-lg shadow-md p-4 text-center text-gray-500"
             >
-              <p>Related Product {i + 1}</p>
+              <p>Podobny produkt {i + 1}</p>
             </div>
           ))}
         </div>

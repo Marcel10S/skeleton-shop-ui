@@ -10,27 +10,27 @@ function Footer() {
           <div>
             <h3 className="text-xl font-bold mb-4 text-white">ShopHub</h3>
             <p className="text-gray-400">
-              Your trusted online shopping destination for quality products and exceptional customer service.
+              Zaufane miejsce zakupów online z wysokiej jakości produktami i wyjątkową obsługą klienta.
             </p>
           </div>
 
           {/* Quick Links */}
           <div>
-            <h4 className="text-lg font-semibold mb-4 text-white">Quick Links</h4>
+            <h4 className="text-lg font-semibold mb-4 text-white">Szybkie linki</h4>
             <ul className="space-y-2">
               <li>
                 <Link to="/" className="text-gray-400 hover:text-white transition">
-                  Home
+                  Strona główna
                 </Link>
               </li>
               <li>
                 <Link to="/shop" className="text-gray-400 hover:text-white transition">
-                  Shop
+                  Sklep
                 </Link>
               </li>
               <li>
                 <Link to="/about" className="text-gray-400 hover:text-white transition">
-                  About Us
+                  O nas
                 </Link>
               </li>
             </ul>
@@ -38,21 +38,21 @@ function Footer() {
 
           {/* Customer Support */}
           <div>
-            <h4 className="text-lg font-semibold mb-4 text-white">Support</h4>
+            <h4 className="text-lg font-semibold mb-4 text-white">Wsparcie</h4>
             <ul className="space-y-2">
               <li>
                 <Link to="/help" className="text-gray-400 hover:text-white transition">
-                  Help Center
+                  Centrum pomocy
                 </Link>
               </li>
               <li>
                 <Link to="/contact" className="text-gray-400 hover:text-white transition">
-                  Contact Us
+                  Skontaktuj się z nami
                 </Link>
               </li>
               <li>
                 <Link to="/faq" className="text-gray-400 hover:text-white transition">
-                  FAQ
+                  Najczęściej zadawane pytania
                 </Link>
               </li>
             </ul>
@@ -60,7 +60,7 @@ function Footer() {
 
           {/* Contact Info */}
           <div>
-            <h4 className="text-lg font-semibold mb-4 text-white">Contact</h4>
+            <h4 className="text-lg font-semibold mb-4 text-white">Kontakt</h4>
             <p className="text-gray-400 mb-2">Email: info@shophub.com</p>
             <p className="text-gray-400 mb-4">Phone: +1 (555) 123-4567</p>
             <div className="flex gap-4">
@@ -82,7 +82,7 @@ function Footer() {
 
         {/* Bottom Bar */}
         <div className="border-t border-gray-700 py-6 text-center text-gray-400">
-          <p>&copy; 2024 ShopHub. All rights reserved. | <a href="#" className="hover:text-white">Privacy Policy</a> | <a href="#" className="hover:text-white">Terms of Service</a></p>
+          <p>&copy; 2024 ShopHub. Wszelkie prawa zastrzeżone. | <a href="#" className="hover:text-white">Polityka prywatności</a> | <a href="#" className="hover:text-white">Regulamin</a></p>
         </div>
       </div>
     </footer>
