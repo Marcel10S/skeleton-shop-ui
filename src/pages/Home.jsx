@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import ProductCard from '../components/ProductCard'
+import ProductCarousel from '../components/ProductCarousel'
 import CategoryTree from '../components/CategoryTree'
 import { apiService } from '../services/api'
 
@@ -50,6 +50,9 @@ function Home() {
       selectedCategoryIds.includes(product.category?.id || product.categoryId)
     ))
     : products
+  const featuredProducts = [...filteredProducts]
+    .sort((first, second) => (second.priority || 1) - (first.priority || 1))
+    .slice(0, 6)
 
   if (loading) {
     return (
@@ -97,7 +100,7 @@ function Home() {
               </h2>
             </div>
             <span className="text-sm text-gray-500">
-              {filteredProducts.length} {filteredProducts.length === 1 ? 'produkt' : 'produktów'}
+              {featuredProducts.length} {featuredProducts.length === 1 ? 'produkt' : 'produktów'}
             </span>
           </div>
 
@@ -107,12 +110,8 @@ function Home() {
             </div>
           )}
 
-          {filteredProducts.length > 0 ? (
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-6 xl:grid-cols-3">
-              {filteredProducts.map((product) => (
-                <ProductCard key={product.id} product={product} />
-              ))}
-            </div>
+          {featuredProducts.length > 0 ? (
+            <ProductCarousel products={featuredProducts} label="6 produktów o najwyższym priorytecie" />
           ) : (
             <div className="py-12 text-center">
               <svg
