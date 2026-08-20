@@ -49,6 +49,9 @@ function Header({ isMenuOpen, setIsMenuOpen }) {
             <Link to="/contact" className="text-gray-700 hover:text-blue-600 font-medium">
               Kontakt
             </Link>
+            <Link to="/check-order" className="text-gray-700 hover:text-blue-600 font-medium">
+              Sprawdź zamówienie
+            </Link>
           </nav>
 
           {/* Cart Icon */}
@@ -104,6 +107,13 @@ function Header({ isMenuOpen, setIsMenuOpen }) {
               onClick={() => setIsMenuOpen(false)}
             >
               Kontakt
+            </Link>
+            <Link
+              to="/check-order"
+              className="block rounded px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Sprawdź zamówienie
             </Link>
           </nav>
         )}

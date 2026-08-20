@@ -5,6 +5,7 @@ import Home from './pages/Home'
 import ProductDetail from './pages/ProductDetail'
 import Cart from './pages/Cart'
 import OrderSuccess from './pages/OrderSuccess'
+import OrderLookup from './pages/OrderLookup'
 import { CartProvider } from './context/CartContext'
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
             <Route path="/product/:id" element={<ProductDetail />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="/order-success/:id" element={<OrderSuccess />} />
+            <Route path="/check-order" element={<OrderLookup />} />
           </Routes>
         </Layout>
       </CartProvider>

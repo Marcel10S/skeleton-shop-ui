@@ -57,7 +57,7 @@ function Cart() {
         delivery,
       })
       clearCart()
-      navigate(`/order-success/${order.id}`)
+      navigate(`/order-success/${order.orderNumber}`)
     } catch (error) {
       const responseError = error.response?.data?.error
       setMessage({

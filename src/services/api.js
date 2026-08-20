@@ -106,6 +106,16 @@ export const apiService = {
     }
   },
 
+  getOrderByNumber: async (orderNumber) => {
+    try {
+      const response = await api.get(`/orders/${encodeURIComponent(orderNumber)}`)
+      return response.data
+    } catch (error) {
+      console.error('Error fetching order:', error)
+      throw error
+    }
+  },
+
   getPaymentMethods: async () => {
     try {
       const response = await api.get('/payment-methods')
