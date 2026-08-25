@@ -6,15 +6,17 @@ function ProductCard({ product }) {
   const { addToCart } = useCart()
 
   return (
-    <Link to={`/product/${product.id}`}>
-      <div className="bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow overflow-hidden h-full">
+    <Link to={`/product/${product.id}`} className="block h-full">
+      <div className="flex h-full flex-col overflow-hidden rounded-lg bg-white shadow-md transition-shadow hover:shadow-xl">
         {/* Product Image */}
         <div className="bg-gray-200 h-48 md:h-56 lg:h-64 overflow-hidden flex items-center justify-center">
           {product.image ? (
             <img
               src={product.image}
               alt={product.name}
-              className="w-full h-full object-cover hover:scale-105 transition-transform"
+              draggable="false"
+              onDragStart={(event) => event.preventDefault()}
+              className="h-full w-full object-cover transition-transform hover:scale-105"
             />
           ) : (
             <svg
@@ -34,24 +36,24 @@ function ProductCard({ product }) {
         </div>
 
         {/* Product Info */}
-        <div className="p-4">
-          <h3 className="text-lg font-semibold text-gray-800 line-clamp-2 mb-2">
+        <div className="flex flex-1 flex-col p-4">
+          <h3 title={product.name} className="mb-2 min-h-[3.5rem] overflow-hidden text-lg font-semibold leading-7 text-gray-800 line-clamp-2">
             {product.name}
           </h3>
-          <p className="text-gray-600 text-sm line-clamp-2 mb-4">
+          <p title={product.description || ''} className="mb-4 min-h-[2.5rem] overflow-hidden text-sm leading-5 text-gray-600 line-clamp-2">
             {product.description}
           </p>
 
           {/* Price */}
-          <div className="flex items-end justify-between">
+          <div>
             <div>
-              <p className="text-2xl font-bold text-blue-600">
+              <p className="text-2xl font-bold leading-8 text-blue-600">
                 {product.price?.currency || 'USD'} {(product.price?.amount || 0).toFixed(2)}
               </p>
             </div>
 
             {/* Stock Status */}
-            <div className="text-right">
+            <div className="mt-1 min-h-6">
               {product.stock > 0 ? (
                 <span className="text-xs font-semibold text-green-600 bg-green-100 px-2 py-1 rounded">
                   Dostępny
@@ -71,7 +73,7 @@ function ProductCard({ product }) {
               addToCart(product)
             }}
             disabled={product.stock === 0}
-            className="w-full mt-4 bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
+            className="mt-auto w-full rounded-lg bg-blue-600 px-4 py-2 font-medium text-white transition-colors hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-gray-400"
           >
             Dodaj do koszyka
           </button>
