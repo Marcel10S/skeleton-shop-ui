@@ -69,6 +69,8 @@ function ProductCarousel({ products, label = 'Polecane produkty', desktopGrid = 
 
   const handlePointerDown = (event) => {
     if (event.pointerType === 'mouse' && event.button !== 0) return
+    if (event.target.closest('button, input, select, textarea, label')) return
+
     event.preventDefault()
     cancelAnimationFrame(animationFrame.current)
     dragState.current = {

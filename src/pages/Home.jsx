@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import ProductCarousel from '../components/ProductCarousel'
 import CategoryTree from '../components/CategoryTree'
 import { apiService } from '../services/api'
 
 function Home() {
+  const navigate = useNavigate()
   const [products, setProducts] = useState([])
   const [categories, setCategories] = useState([])
   const [selectedCategory, setSelectedCategory] = useState(null)
@@ -41,8 +43,16 @@ function Home() {
   }
 
   const handleCategoryFilter = (categoryId, categoryIds = []) => {
-    setSelectedCategory(categoryId)
-    setSelectedCategoryIds(categoryIds)
+    if (!categoryId) {
+      navigate('/shop')
+      return
+    }
+
+    const parameters = new URLSearchParams({
+      category: categoryId,
+      categories: categoryIds.join(','),
+    })
+    navigate(`/shop?${parameters.toString()}`)
   }
 
   const filteredProducts = selectedCategory

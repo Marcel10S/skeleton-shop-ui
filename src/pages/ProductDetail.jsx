@@ -32,8 +32,8 @@ function ProductDetail() {
     }
   }
 
-  const handleAddToCart = () => {
-    addToCart(product, quantity)
+  const handleAddToCart = async () => {
+    await addToCart(product, quantity)
   }
 
   const handleQuantityChange = (e) => {

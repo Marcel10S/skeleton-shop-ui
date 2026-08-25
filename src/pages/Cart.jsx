@@ -19,11 +19,13 @@ function Cart() {
   const navigate = useNavigate()
   const {
     items,
+    cartId,
     itemCount,
     totalsByCurrency,
     updateQuantity,
     removeFromCart,
     clearCart,
+    completeCheckout,
   } = useCart()
   const [paymentMethods, setPaymentMethods] = useState([])
   const [paymentMethod, setPaymentMethod] = useState('')
@@ -45,6 +47,18 @@ function Cart() {
     setDelivery((current) => ({ ...current, [name]: value }))
   }
 
+  const handleQuantityChange = async (productId, newQuantity) => {
+    await updateQuantity(productId, newQuantity)
+  }
+
+  const handleRemoveItem = async (productId) => {
+    await removeFromCart(productId)
+  }
+
+  const handleClearCart = async () => {
+    await clearCart()
+  }
+
   const handleSubmit = async (event) => {
     event.preventDefault()
     setMessage(null)
@@ -52,11 +66,11 @@ function Cart() {
 
     try {
       const order = await apiService.createOrder({
-        items: items.map((item) => ({ product: item.id, quantity: item.quantity })),
+        cartId,
         paymentMethod,
         delivery,
       })
-      clearCart()
+      completeCheckout()
       navigate(`/order-success/${order.orderNumber}`)
     } catch (error) {
       const responseError = error.response?.data?.error
@@ -114,8 +128,8 @@ function Cart() {
                 <p className="mt-1 text-sm text-gray-500">{formatPrice(item.price?.amount || 0, item.price?.currency || 'USD')} / szt.</p>
                 <div className="mt-3 flex flex-wrap items-center gap-3">
                   <label className="text-sm text-gray-600" htmlFor={`quantity-${item.id}`}>Ilość</label>
-                  <input id={`quantity-${item.id}`} type="number" min="1" max={item.stock} value={item.quantity} onChange={(event) => updateQuantity(item.id, Number(event.target.value))} className="w-20 rounded-lg border border-gray-300 px-3 py-1.5" />
-                  <button type="button" onClick={() => removeFromCart(item.id)} className="text-sm font-medium text-red-600 hover:text-red-700">Usuń</button>
+                  <input id={`quantity-${item.id}`} type="number" min="1" max={item.stock} value={item.quantity} onChange={(event) => handleQuantityChange(item.id, Number(event.target.value))} className="w-20 rounded-lg border border-gray-300 px-3 py-1.5" />
+                  <button type="button" onClick={() => handleRemoveItem(item.id)} className="text-sm font-medium text-red-600 hover:text-red-700">Usuń</button>
                 </div>
               </div>
               <strong className="shrink-0 text-right text-gray-900">{formatPrice((item.price?.amount || 0) * item.quantity, item.price?.currency || 'USD')}</strong>
@@ -159,7 +173,7 @@ function Cart() {
           <button type="submit" disabled={submitting || !paymentMethod} className="w-full rounded-lg bg-blue-600 px-4 py-3 font-bold text-white hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-gray-400">
             {submitting ? 'Składanie zamówienia...' : 'Złóż zamówienie'}
           </button>
-          <button type="button" onClick={clearCart} className="w-full text-sm text-gray-500 hover:text-red-600">Wyczyść koszyk</button>
+          <button type="button" onClick={handleClearCart} className="w-full text-sm text-gray-500 hover:text-red-600">Wyczyść koszyk</button>
         </form>
       </div>
     </div>

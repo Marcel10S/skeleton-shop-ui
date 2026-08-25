@@ -68,9 +68,9 @@ function ProductCard({ product }) {
 
           {/* Add to Cart Button */}
           <button
-            onClick={(e) => {
+            onClick={async (e) => {
               e.preventDefault()
-              addToCart(product)
+              await addToCart(product)
             }}
             disabled={product.stock === 0}
             className="mt-auto w-full rounded-lg bg-blue-600 px-4 py-2 font-medium text-white transition-colors hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-gray-400"

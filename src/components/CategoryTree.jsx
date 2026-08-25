@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 
 const getParentId = (category) => (
   category.parentId || category.parent_id || category.parent?.id || null
@@ -50,27 +50,26 @@ const getCategoryIds = (category) => [
   ...category.children.flatMap((child) => getCategoryIds(child)),
 ]
 
-function CategoryNode({ category, level, selectedCategory, expandedCategories, onToggle, onExpand, onSelect }) {
+function CategoryNode({ category, level, selectedCategory, expandedCategories, onExpand, onCollapse, onSelect }) {
   const hasChildren = category.children.length > 0
   const isExpanded = expandedCategories.has(category.id)
   const isSelected = selectedCategory === category.id
 
   return (
-    <li>
+    <li
+      onMouseEnter={() => {
+        if (hasChildren) onExpand(category.id)
+        onSelect(category)
+      }}
+      onMouseLeave={() => hasChildren && onCollapse(category)}
+    >
       <div
-        onMouseEnter={() => hasChildren && onExpand(category.id)}
         className={`flex items-center gap-1 rounded-lg transition-colors ${
           isSelected ? 'bg-blue-50 text-blue-700' : 'text-gray-700 hover:bg-gray-50'
         }`}
       >
         {hasChildren ? (
-          <button
-            type="button"
-            onClick={() => onToggle(category.id)}
-            aria-label={`${isExpanded ? 'Zwiń' : 'Rozwiń'} kategorię ${category.name}`}
-            aria-expanded={isExpanded}
-            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md text-gray-400 hover:bg-gray-200 hover:text-blue-600"
-          >
+          <span className="flex h-9 w-9 shrink-0 items-center justify-center text-gray-400" aria-hidden="true">
             <svg
               className={`h-4 w-4 transition-transform ${isExpanded ? 'rotate-90' : ''}`}
               viewBox="0 0 20 20"
@@ -79,21 +78,17 @@ function CategoryNode({ category, level, selectedCategory, expandedCategories, o
             >
               <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
             </svg>
-          </button>
+          </span>
         ) : (
           <span className="h-9 w-9 shrink-0" aria-hidden="true" />
         )}
 
-        <button
-          type="button"
-          onClick={() => onSelect(category)}
-          className="flex min-h-9 min-w-0 flex-1 items-center justify-between gap-3 py-2 pr-3 text-left text-sm font-medium"
-        >
-          <span className="truncate">{category.name}</span>
+        <div className="flex min-h-9 min-w-0 flex-1 items-center justify-between gap-3 py-2 pr-3 text-left text-sm font-medium">
+          <span className="truncate" title={category.name}>{category.name}</span>
           {category.productCount !== undefined && (
             <span className="shrink-0 text-xs text-gray-400">{category.productCount}</span>
           )}
-        </button>
+        </div>
       </div>
 
       {hasChildren && isExpanded && (
@@ -105,8 +100,8 @@ function CategoryNode({ category, level, selectedCategory, expandedCategories, o
               level={level + 1}
               selectedCategory={selectedCategory}
               expandedCategories={expandedCategories}
-              onToggle={onToggle}
               onExpand={onExpand}
+              onCollapse={onCollapse}
               onSelect={onSelect}
             />
           ))}
@@ -120,22 +115,6 @@ function CategoryTree({ categories, totalProducts, selectedCategory, onSelect })
   const tree = buildTree(categories)
   const [expandedCategories, setExpandedCategories] = useState(new Set())
 
-  useEffect(() => {
-    setExpandedCategories(new Set(tree.filter((category) => category.children.length > 0).map((category) => category.id)))
-  }, [categories])
-
-  const handleToggle = (categoryId) => {
-    setExpandedCategories((current) => {
-      const next = new Set(current)
-      if (next.has(categoryId)) {
-        next.delete(categoryId)
-      } else {
-        next.add(categoryId)
-      }
-      return next
-    })
-  }
-
   const handleExpand = (categoryId) => {
     setExpandedCategories((current) => {
       if (current.has(categoryId)) {
@@ -144,6 +123,13 @@ function CategoryTree({ categories, totalProducts, selectedCategory, onSelect })
 
       return new Set([...current, categoryId])
     })
+  }
+
+  const handleCollapse = (category) => {
+    const categoryIds = getCategoryIds(category)
+    setExpandedCategories((current) => new Set(
+      [...current].filter((categoryId) => !categoryIds.includes(categoryId))
+    ))
   }
 
   const handleSelect = (category) => {
@@ -168,7 +154,7 @@ function CategoryTree({ categories, totalProducts, selectedCategory, onSelect })
         <li>
           <button
             type="button"
-            onClick={() => handleSelect(null)}
+            onMouseEnter={() => handleSelect(null)}
             className={`flex min-h-10 w-full items-center justify-between rounded-lg px-3 text-left text-sm font-semibold transition-colors ${
               selectedCategory === null
                 ? 'bg-blue-600 text-white shadow-sm'
@@ -186,8 +172,8 @@ function CategoryTree({ categories, totalProducts, selectedCategory, onSelect })
             level={0}
             selectedCategory={selectedCategory}
             expandedCategories={expandedCategories}
-            onToggle={handleToggle}
             onExpand={handleExpand}
+            onCollapse={handleCollapse}
             onSelect={handleSelect}
           />
         ))}

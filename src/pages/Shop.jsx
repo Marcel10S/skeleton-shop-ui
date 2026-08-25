@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import ProductCarousel from '../components/ProductCarousel'
 import CategoryTree from '../components/CategoryTree'
 import { apiService } from '../services/api'
@@ -6,13 +7,17 @@ import { apiService } from '../services/api'
 const PRODUCTS_PER_PAGE = 12
 
 function Shop() {
+  const [searchParams, setSearchParams] = useSearchParams()
   const [products, setProducts] = useState([])
   const [categories, setCategories] = useState([])
-  const [selectedCategory, setSelectedCategory] = useState(null)
-  const [selectedCategoryIds, setSelectedCategoryIds] = useState([])
   const [page, setPage] = useState(1)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
+
+  const selectedCategory = searchParams.get('category')
+  const selectedCategoryIds = (searchParams.get('categories') || selectedCategory || '')
+    .split(',')
+    .filter(Boolean)
 
   useEffect(() => {
     Promise.all([apiService.getProducts(), apiService.getCategories()])
@@ -25,14 +30,21 @@ function Shop() {
   }, [])
 
   const handleCategoryFilter = (categoryId, categoryIds = []) => {
-    setSelectedCategory(categoryId)
-    setSelectedCategoryIds(categoryIds)
+    if (categoryId) {
+      setSearchParams({
+        category: categoryId,
+        categories: categoryIds.join(','),
+      })
+    } else {
+      setSearchParams({})
+    }
     setPage(1)
   }
 
   const filteredProducts = selectedCategory
     ? products.filter((product) => selectedCategoryIds.includes(product.category?.id || product.categoryId))
     : products
+  const selectedCategoryName = categories.find((category) => category.id === selectedCategory)?.name
   const pageCount = Math.max(1, Math.ceil(filteredProducts.length / PRODUCTS_PER_PAGE))
   const visibleProducts = filteredProducts.slice((page - 1) * PRODUCTS_PER_PAGE, page * PRODUCTS_PER_PAGE)
 
@@ -53,7 +65,12 @@ function Shop() {
         <section className="min-w-0">
           {error && <div className="mb-6 rounded border border-red-400 bg-red-100 px-4 py-3 text-red-700">{error}</div>}
           <div className="mb-6 flex flex-wrap items-end justify-between gap-3">
-            <h2 className="text-2xl font-bold text-gray-900">{selectedCategory ? 'Produkty z kategorii' : 'Wszystkie produkty'}</h2>
+            <div>
+              <h2 className="text-2xl font-bold text-gray-900">
+                {selectedCategoryName ? `Produkty: ${selectedCategoryName}` : 'Wszystkie produkty'}
+              </h2>
+              {selectedCategoryName && <p className="mt-1 text-sm text-gray-500">Wyświetlamy produkty z tej kategorii i jej podkategorii.</p>}
+            </div>
             <span className="text-sm text-gray-500">{filteredProducts.length} produktów</span>
           </div>
           {visibleProducts.length > 0 ? (

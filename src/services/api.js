@@ -125,6 +125,82 @@ export const apiService = {
       throw error
     }
   },
+
+  // Cart
+  createCart: async () => {
+    try {
+      const response = await api.post('/carts', {})
+      return response.data
+    } catch (error) {
+      console.error('Error creating cart:', error)
+      throw error
+    }
+  },
+
+  getCart: async (cartId) => {
+    try {
+      const response = await api.get(`/carts/${cartId}`)
+      return response.data
+    } catch (error) {
+      console.error('Error fetching cart:', error)
+      throw error
+    }
+  },
+
+  getCartByToken: async (token) => {
+    try {
+      const response = await api.get(`/carts/token/${token}`)
+      return response.data
+    } catch (error) {
+      console.error('Error fetching cart by token:', error)
+      throw error
+    }
+  },
+
+  addToCart: async (cartId, productId, quantity = 1) => {
+    try {
+      const response = await api.post(`/carts/${cartId}/items`, {
+        productId,
+        quantity,
+      })
+      return response.data
+    } catch (error) {
+      console.error('Error adding item to cart:', error)
+      throw error
+    }
+  },
+
+  removeCartItem: async (cartId, itemId) => {
+    try {
+      const response = await api.delete(`/carts/${cartId}/items/${itemId}`)
+      return response.data
+    } catch (error) {
+      console.error('Error removing cart item:', error)
+      throw error
+    }
+  },
+
+  updateCartItem: async (cartId, itemId, quantity) => {
+    try {
+      const response = await api.put(`/carts/${cartId}/items/${itemId}`, {
+        quantity,
+      })
+      return response.data
+    } catch (error) {
+      console.error('Error updating cart item:', error)
+      throw error
+    }
+  },
+
+  clearCart: async (cartId) => {
+    try {
+      const response = await api.post(`/carts/${cartId}/clear`)
+      return response.data
+    } catch (error) {
+      console.error('Error clearing cart:', error)
+      throw error
+    }
+  },
 }
 
 export default api
