@@ -80,7 +80,7 @@ function Home() {
       {/* Hero Section */}
       <section className="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-12 md:py-20 mb-12 rounded-lg">
         <div className="text-center">
-          <h1 className="text-3xl md:text-5xl font-bold mb-4">Witamy w ShopHub</h1>
+          <h1 className="text-3xl md:text-5xl font-bold mb-4">Witamy w Shop Skeleton UI</h1>
           <p className="text-lg md:text-xl text-blue-100 mb-8">
             Odkryj wyjątkowe produkty w najlepszych cenach
           </p>
@@ -104,7 +104,7 @@ function Home() {
         <section className="min-w-0">
           <div className="mb-8 flex flex-wrap items-end justify-between gap-3">
             <div>
-              <p className="mb-1 text-sm font-semibold uppercase tracking-wide text-blue-600">ShopHub</p>
+              <p className="mb-1 text-sm font-semibold uppercase tracking-wide text-blue-600">Shop Skeleton UI</p>
               <h2 className="text-2xl font-bold text-gray-900 md:text-3xl">
                 {selectedCategory ? 'Produkty z kategorii' : 'Polecane produkty'}
               </h2>
@@ -121,7 +121,7 @@ function Home() {
           )}
 
           {featuredProducts.length > 0 ? (
-            <ProductCarousel products={featuredProducts} label="6 produktów o najwyższym priorytecie" />
+            <ProductCarousel products={featuredProducts} label="Nasi ulubieńcy dnia" />
           ) : (
             <div className="py-12 text-center">
               <svg
@@ -145,7 +145,7 @@ function Home() {
 
       {/* Features Section */}
       <section className="mt-16 py-12 bg-gray-100 rounded-lg">
-        <h2 className="text-2xl md:text-3xl font-bold mb-8 text-center">Dlaczego warto wybrać ShopHub?</h2>
+        <h2 className="text-2xl md:text-3xl font-bold mb-8 text-center">Dlaczego warto wybrać Shop Skeleton UI?</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div className="text-center">
             <div className="bg-blue-600 text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -153,8 +153,8 @@ function Home() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" />
               </svg>
             </div>
-            <h3 className="text-xl font-bold mb-2">Darmowa dostawa</h3>
-            <p className="text-gray-600">Dla zamówień powyżej 50 USD</p>
+            <h3 className="text-xl font-bold mb-2">Dostawa do ciebie</h3>
+            <p className="text-gray-600">Zamówienie dotrze na wskazany adres</p>
           </div>
           <div className="text-center">
             <div className="bg-blue-600 text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">

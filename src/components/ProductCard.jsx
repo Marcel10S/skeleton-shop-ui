@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useCart } from '../context/CartContext'
 
 function ProductCard({ product }) {
   const { addToCart } = useCart()
+  const [quantity, setQuantity] = useState(1)
 
   return (
     <Link to={`/product/${product.id}`} className="block h-full">
@@ -66,17 +67,23 @@ function ProductCard({ product }) {
             </div>
           </div>
 
-          {/* Add to Cart Button */}
-          <button
-            onClick={async (e) => {
-              e.preventDefault()
-              await addToCart(product)
-            }}
-            disabled={product.stock === 0}
-            className="mt-auto w-full rounded-lg bg-blue-600 px-4 py-2 font-medium text-white transition-colors hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-gray-400"
-          >
-            Dodaj do koszyka
-          </button>
+          <div className="mt-2 flex gap-2">
+            <div className="flex h-10 shrink-0 items-center rounded-lg border border-gray-300 bg-white">
+              <button type="button" aria-label="Zmniejsz ilość" onClick={(event) => { event.preventDefault(); setQuantity((current) => Math.max(1, current - 1)) }} disabled={quantity === 1} className="h-full w-9 text-lg text-gray-700 disabled:text-gray-300">−</button>
+              <span className="w-7 text-center text-sm font-semibold text-gray-900" aria-live="polite">{quantity}</span>
+              <button type="button" aria-label="Zwiększ ilość" onClick={(event) => { event.preventDefault(); setQuantity((current) => Math.min(product.stock, current + 1)) }} disabled={quantity >= product.stock} className="h-full w-9 text-lg text-gray-700 disabled:text-gray-300">+</button>
+            </div>
+            <button
+              onClick={async (event) => {
+                event.preventDefault()
+                await addToCart(product, quantity)
+              }}
+              disabled={product.stock === 0}
+              className="min-w-0 flex-1 rounded-lg bg-blue-600 px-3 py-2 text-sm font-medium text-white transition-colors hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-gray-400"
+            >
+              Dodaj do koszyka
+            </button>
+          </div>
         </div>
       </div>
     </Link>

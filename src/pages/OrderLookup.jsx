@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { apiService } from '../services/api'
+import { BANK_ACCOUNT_NUMBER } from '../constants/payment'
 
 function formatStatus(status) {
   return status === 'paid' ? 'Opłacone' : 'Oczekuje na płatność'
@@ -33,7 +34,7 @@ function OrderLookup() {
   return (
     <div className="mx-auto max-w-3xl">
       <div className="mb-8 max-w-xl">
-        <p className="mb-1 text-sm font-semibold uppercase tracking-wide text-blue-600">ShopHub</p>
+        <p className="mb-1 text-sm font-semibold uppercase tracking-wide text-blue-600">Shop Skeleton UI</p>
         <h1 className="text-3xl font-bold text-gray-900">Sprawdź zamówienie</h1>
         <p className="mt-2 text-gray-600">Wpisz czytelny numer zamówienia, aby zobaczyć jego status i szczegóły.</p>
       </div>
@@ -78,6 +79,13 @@ function OrderLookup() {
               <p className="text-sm text-gray-600">{order.delivery?.city}</p>
             </div>
           </div>
+
+          {order.paymentMethodCode === 'bank_transfer' && (
+            <div className="mb-6 rounded-lg border border-blue-200 bg-blue-50 p-4">
+              <p className="text-sm text-gray-600">Numer konta do wpłaty</p>
+              <p className="mt-1 font-mono text-lg font-bold tracking-wide text-blue-800">{BANK_ACCOUNT_NUMBER}</p>
+            </div>
+          )}
 
           <h3 className="mb-3 text-lg font-bold text-gray-900">Produkty</h3>
           <div className="divide-y divide-gray-100">

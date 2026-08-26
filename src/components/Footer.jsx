@@ -8,7 +8,7 @@ function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 py-12">
           {/* Company Info */}
           <div>
-            <h3 className="text-xl font-bold mb-4 text-white">ShopHub</h3>
+            <h3 className="text-xl font-bold mb-4 text-white">Shop Skeleton UI</h3>
             <p className="text-gray-400">
               Zaufane miejsce zakupów online z wysokiej jakości produktami i wyjątkową obsługą klienta.
             </p>
@@ -61,8 +61,8 @@ function Footer() {
           {/* Contact Info */}
           <div>
             <h4 className="text-lg font-semibold mb-4 text-white">Kontakt</h4>
-            <p className="text-gray-400 mb-2">Email: info@shophub.com</p>
-            <p className="text-gray-400 mb-4">Phone: +1 (555) 123-4567</p>
+            <p className="text-gray-400 mb-2">Email: marcelstulczewski@gmail.com</p>
+            <p className="text-gray-400 mb-4">Phone: +48 508 569 648</p>
             <div className="flex gap-4">
               <a href="#" className="text-gray-400 hover:text-white transition">
                 <span className="sr-only">Facebook</span>
@@ -82,7 +82,7 @@ function Footer() {
 
         {/* Bottom Bar */}
         <div className="border-t border-gray-700 py-6 text-center text-gray-400">
-          <p>&copy; 2024 ShopHub. Wszelkie prawa zastrzeżone. | <a href="#" className="hover:text-white">Polityka prywatności</a> | <a href="#" className="hover:text-white">Regulamin</a></p>
+          <p>&copy; 2024 Shop Skeleton UI. Wszelkie prawa zastrzeżone. | <Link to="/privacy" className="hover:text-white">Polityka prywatności</Link> | <Link to="/terms" className="hover:text-white">Regulamin</Link></p>
         </div>
       </div>
     </footer>

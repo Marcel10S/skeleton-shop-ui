@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import ProductCarousel from '../components/ProductCarousel'
 import CategoryTree from '../components/CategoryTree'
+import ProductCard from '../components/ProductCard'
 import { apiService } from '../services/api'
 
 const PRODUCTS_PER_PAGE = 12
@@ -55,7 +56,7 @@ function Shop() {
   return (
     <div className="w-full">
       <div className="mb-8">
-        <p className="mb-1 text-sm font-semibold uppercase tracking-wide text-blue-600">ShopHub</p>
+        <p className="mb-1 text-sm font-semibold uppercase tracking-wide text-blue-600">Shop Skeleton UI</p>
         <h1 className="text-3xl font-bold text-gray-900 md:text-4xl">Sklep</h1>
         <p className="mt-2 text-gray-600">Wszystkie produkty w jednym miejscu.</p>
       </div>
@@ -74,7 +75,16 @@ function Shop() {
             <span className="text-sm text-gray-500">{filteredProducts.length} produktów</span>
           </div>
           {visibleProducts.length > 0 ? (
-            <ProductCarousel products={visibleProducts} label={`Produkty na stronie ${page}`} desktopGrid />
+            <>
+              <div className="space-y-4 lg:hidden">
+                {visibleProducts.map((product) => (
+                  <ProductCard key={product.id} product={product} />
+                ))}
+              </div>
+              <div className="hidden lg:block">
+                <ProductCarousel products={visibleProducts} label={`Produkty na stronie ${page}`} desktopGrid />
+              </div>
+            </>
           ) : (
             <p className="py-12 text-center text-gray-500">Nie znaleziono produktów.</p>
           )}

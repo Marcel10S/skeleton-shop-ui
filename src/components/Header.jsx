@@ -11,7 +11,7 @@ function Header({ isMenuOpen, setIsMenuOpen }) {
         <div className="flex justify-between items-center py-4">
           {/* Logo */}
           <Link to="/" className="text-2xl md:text-3xl font-bold text-blue-600 hover:text-blue-700">
-            ShopHub
+            Shop Skeleton UI
           </Link>
 
           {/* Mobile menu button */}

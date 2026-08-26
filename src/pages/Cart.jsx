@@ -104,7 +104,7 @@ function Cart() {
     <div className="mx-auto max-w-6xl">
       <div className="mb-8 flex flex-wrap items-end justify-between gap-3">
         <div>
-          <p className="mb-1 text-sm font-semibold uppercase tracking-wide text-blue-600">ShopHub</p>
+          <p className="mb-1 text-sm font-semibold uppercase tracking-wide text-blue-600">Shop Skeleton UI</p>
           <h1 className="text-3xl font-bold text-gray-900">Koszyk</h1>
         </div>
         <span className="text-sm text-gray-500">{itemCount} {itemCount === 1 ? 'produkt' : 'produktów'}</span>

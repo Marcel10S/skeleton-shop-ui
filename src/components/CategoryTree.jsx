@@ -59,7 +59,6 @@ function CategoryNode({ category, level, selectedCategory, expandedCategories, o
     <li
       onMouseEnter={() => {
         if (hasChildren) onExpand(category.id)
-        onSelect(category)
       }}
       onMouseLeave={() => hasChildren && onCollapse(category)}
     >
@@ -83,12 +82,16 @@ function CategoryNode({ category, level, selectedCategory, expandedCategories, o
           <span className="h-9 w-9 shrink-0" aria-hidden="true" />
         )}
 
-        <div className="flex min-h-9 min-w-0 flex-1 items-center justify-between gap-3 py-2 pr-3 text-left text-sm font-medium">
+        <button
+          type="button"
+          onClick={() => onSelect(category)}
+          className="flex min-h-9 min-w-0 flex-1 items-center justify-between gap-3 py-2 pr-3 text-left text-sm font-medium"
+        >
           <span className="truncate" title={category.name}>{category.name}</span>
           {category.productCount !== undefined && (
             <span className="shrink-0 text-xs text-gray-400">{category.productCount}</span>
           )}
-        </div>
+        </button>
       </div>
 
       {hasChildren && isExpanded && (
@@ -154,7 +157,7 @@ function CategoryTree({ categories, totalProducts, selectedCategory, onSelect })
         <li>
           <button
             type="button"
-            onMouseEnter={() => handleSelect(null)}
+            onClick={() => handleSelect(null)}
             className={`flex min-h-10 w-full items-center justify-between rounded-lg px-3 text-left text-sm font-semibold transition-colors ${
               selectedCategory === null
                 ? 'bg-blue-600 text-white shadow-sm'

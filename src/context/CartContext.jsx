@@ -1,8 +1,8 @@
 import React, { createContext, useContext, useEffect, useMemo, useState } from 'react'
 import { apiService } from '../services/api'
 
-const STORAGE_KEY = 'shophub-cart'
-const CART_ID_KEY = 'shophub-cart-id'
+const STORAGE_KEY = 'shop-skeleton-ui-cart'
+const CART_ID_KEY = 'shop-skeleton-ui-cart-id'
 const CartContext = createContext(null)
 
 function readStoredCart() {
@@ -27,25 +27,39 @@ export function CartProvider({ children }) {
   const [cartId, setCartId] = useState(readStoredCartId)
   const [isLoading, setIsLoading] = useState(false)
 
+  const discardExpiredCart = () => {
+    window.localStorage.removeItem(CART_ID_KEY)
+    window.localStorage.removeItem(STORAGE_KEY)
+    setCartId(null)
+    setItems([])
+  }
+
+  const createFreshCart = async () => {
+    const response = await apiService.createCart()
+    setCartId(response.id)
+    window.localStorage.setItem(CART_ID_KEY, response.id)
+    syncCartFromApi(response)
+    return response.id
+  }
+
   // Initialize cart on mount
   useEffect(() => {
     const initCart = async () => {
       try {
         setIsLoading(true)
         if (cartId) {
-          // Try to get existing cart from API
-          const response = await apiService.getCart(cartId)
-          if (response) {
-            syncCartFromApi(response)
+          try {
+            const response = await apiService.getCart(cartId)
+            if (response) {
+              syncCartFromApi(response)
+            }
+          } catch (error) {
+            if (error.response?.status !== 404) throw error
+            discardExpiredCart()
+            await createFreshCart()
           }
         } else {
-          // Create new cart
-          const response = await apiService.createCart()
-          if (response) {
-            setCartId((response.id))
-            window.localStorage.setItem(CART_ID_KEY, response.id)
-            syncCartFromApi(response)
-          }
+          await createFreshCart()
         }
       } catch (error) {
         console.warn('Failed to sync cart with backend, using local storage:', error)
@@ -68,36 +82,14 @@ export function CartProvider({ children }) {
         id: item.productId,
         name: item.productName,
         quantity: item.quantity,
-        stock: item.quantity, // Backend doesn't return stock, use quantity as fallback
+        stock: item.stock,
         price: item.price,
       })))
     }
   }
 
   const ensureCartId = async () => {
-    // First check if we have stored cartId
-    const storedId = window.localStorage.getItem(CART_ID_KEY)
-    if (storedId) {
-      // Update state if needed
-      if (storedId !== cartId) {
-        setCartId(storedId)
-      }
-      return storedId
-    }
-
-    // If no stored ID, create new cart
-    try {
-      const response = await apiService.createCart()
-      if (response && response.id) {
-        const newId = response.id
-        setCartId(newId)
-        window.localStorage.setItem(CART_ID_KEY, newId)
-        return newId
-      }
-    } catch (error) {
-      console.error('Failed to create cart:', error)
-    }
-    return null
+    return cartId || createFreshCart()
   }
 
   const addToCart = async (product, quantity = 1) => {
@@ -128,6 +120,16 @@ export function CartProvider({ children }) {
         }
       }
     } catch (error) {
+      if (error.response?.status === 404) {
+        try {
+          const freshCartId = await createFreshCart()
+          const response = await apiService.addToCart(freshCartId, product.id, quantity)
+          syncCartFromApi(response)
+          return
+        } catch (retryError) {
+          console.error('Failed to recreate expired cart:', retryError)
+        }
+      }
       console.error('Failed to add item to cart on backend:', error)
       // Revert optimistic update on error
       setItems((currentItems) => {
@@ -177,6 +179,7 @@ export function CartProvider({ children }) {
         }
       }
     } catch (error) {
+      if (error.response?.status === 404) discardExpiredCart()
       console.error('Failed to update item quantity on backend:', error)
       // Revert to previous quantity
       setItems((currentItems) =>
@@ -211,6 +214,7 @@ export function CartProvider({ children }) {
         }
       }
     } catch (error) {
+      if (error.response?.status === 404) discardExpiredCart()
       console.error('Failed to remove item from cart on backend:', error)
       // Revert optimistic update
       if (currentItem) {
@@ -233,6 +237,7 @@ export function CartProvider({ children }) {
         }
       }
     } catch (error) {
+      if (error.response?.status === 404) discardExpiredCart()
       console.error('Failed to clear cart on backend:', error)
     }
   }

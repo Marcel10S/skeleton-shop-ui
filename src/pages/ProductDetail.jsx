@@ -36,10 +36,8 @@ function ProductDetail() {
     await addToCart(product, quantity)
   }
 
-  const handleQuantityChange = (e) => {
-    const value = parseInt(e.target.value)
-    setQuantity(Math.max(1, Math.min(value, product?.stock || 1)))
-  }
+  const decreaseQuantity = () => setQuantity((current) => Math.max(1, current - 1))
+  const increaseQuantity = () => setQuantity((current) => Math.min(product?.stock || 1, current + 1))
 
   if (loading) {
     return (
@@ -162,20 +160,12 @@ function ProductDetail() {
             {/* Quantity Selector */}
             {product.stock > 0 && (
               <div className="mb-4">
-                <label className="block text-gray-700 font-medium mb-2">
-                  Ilość:
-                </label>
-                <select
-                  value={quantity}
-                  onChange={handleQuantityChange}
-                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600"
-                >
-                  {[...Array(Math.min(10, product.stock))].map((_, i) => (
-                    <option key={i + 1} value={i + 1}>
-                      {i + 1}
-                    </option>
-                  ))}
-                </select>
+                <span className="mb-2 block text-gray-700 font-medium">Ilość:</span>
+                <div className="inline-flex h-11 items-center rounded-lg border border-gray-300 bg-white">
+                  <button type="button" aria-label="Zmniejsz ilość" onClick={decreaseQuantity} disabled={quantity === 1} className="h-full w-11 text-xl text-gray-700 disabled:text-gray-300">−</button>
+                  <span className="w-10 text-center font-semibold text-gray-900" aria-live="polite">{quantity}</span>
+                  <button type="button" aria-label="Zwiększ ilość" onClick={increaseQuantity} disabled={quantity >= product.stock} className="h-full w-11 text-xl text-gray-700 disabled:text-gray-300">+</button>
+                </div>
               </div>
             )}
 
@@ -203,7 +193,6 @@ function ProductDetail() {
           <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
             <h4 className="font-semibold text-gray-800 mb-3">Dostawa i zwroty</h4>
             <ul className="space-y-2 text-sm text-gray-700">
-              <li>✓ Darmowa dostawa dla zamówień powyżej 50 USD</li>
               <li>✓ 30 dni na zwrot</li>
               <li>✓ Bezpieczne płatności</li>
               <li>✓ Roczna gwarancja</li>
